@@ -6,27 +6,34 @@
 <body>
   <h1>BrawlStars Free Voucher Link Generator</h1>
   <h2>Made By DDAOB</h2>
-  <button onclick="generateRandomLink()">Generate Random Link</button>
-  <p id="randomLink"></p>
+  
+  <label for="linkCount">Number of links to generate:</label>
+  <input type="number" id="linkCount" min="1" value="1">
+  <button onclick="generateRandomLinks()">Generate Links</button>
+  
+  <div id="randomLinks"></div>
 
   <script>
-    function generateRandomLink() {
-      // 링크의 기본 구조 정의
-      const baseURL = "https://link.brawlstars.com/kr/?action=voucher&code=";
+    function generateRandomLinks() {
+      const linkCount = document.getElementById("linkCount").value;
+      const randomLinks = [];
 
-      // 랜덤 문자열 생성 (UUID 형식)
-      function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
+      for (let i = 0; i < linkCount; i++) {
+        const baseURL = "https://link.brawlstars.com/kr/?action=voucher&code=";
+        const randomCode = generateUUID();
+        const randomLink = baseURL + randomCode;
+        randomLinks.push(randomLink);
       }
 
-      // 최종 링크 생성
-      const randomLink = baseURL + generateUUID();
+      const randomLinksHTML = randomLinks.map(link => `<p>${link}</p>`).join('');
+      document.getElementById("randomLinks").innerHTML = randomLinksHTML;
+    }
 
-      // 화면에 링크 출력
-      document.getElementById("randomLink").innerHTML = randomLink;
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
     }
   </script>
 </body>
